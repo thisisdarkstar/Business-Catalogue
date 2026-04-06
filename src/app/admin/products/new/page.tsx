@@ -30,6 +30,7 @@ export default function NewProductPage() {
   const [brand, setBrand] = useState('');
   const [brandSuggestions, setBrandSuggestions] = useState<string[]>([]);
   const [showBrandSuggestions, setShowBrandSuggestions] = useState(false);
+  const [descriptionSuggestions, setDescriptionSuggestions] = useState<string[]>([]);
   const [color, setColor] = useState('');
   const [showColorSuggestions, setShowColorSuggestions] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
@@ -55,6 +56,11 @@ export default function NewProductPage() {
     if (savedBrands) {
       setBrandSuggestions(JSON.parse(savedBrands));
     }
+    
+    const savedDescriptions = localStorage.getItem('productDescriptions');
+    if (savedDescriptions) {
+      setDescriptionSuggestions(JSON.parse(savedDescriptions));
+    }
   }, []);
 
   const saveBrandToHistory = (brandName: string) => {
@@ -62,6 +68,13 @@ export default function NewProductPage() {
     const updated = [brandName, ...brandSuggestions.filter(b => b.toLowerCase() !== brandName.toLowerCase())].slice(0, 10);
     setBrandSuggestions(updated);
     localStorage.setItem('productBrands', JSON.stringify(updated));
+  };
+
+  const saveDescriptionToHistory = (desc: string) => {
+    if (!desc.trim() || desc.length < 20) return;
+    const updated = [desc, ...descriptionSuggestions.filter(d => d !== desc)].slice(0, 10);
+    setDescriptionSuggestions(updated);
+    localStorage.setItem('productDescriptions', JSON.stringify(updated));
   };
 
   const filteredBrandSuggestions = brandSuggestions.filter(b => 
@@ -175,7 +188,7 @@ export default function NewProductPage() {
     setVariants([...variants, {
       color: newVariantColor.trim(),
       thumbnail: variantImages[0] || null,
-      images: variantImages.length > 0 ? variantImages : null
+      images: variantImages.length > 1 ? variantImages.slice(1) : null
     }]);
     
     setNewVariantColor('');
@@ -193,6 +206,10 @@ export default function NewProductPage() {
     
     if (brand.trim()) {
       saveBrandToHistory(brand.trim());
+    }
+    
+    if (description && description.trim().length >= 20) {
+      saveDescriptionToHistory(description.trim());
     }
     
     setLoading(true);
@@ -284,7 +301,7 @@ export default function NewProductPage() {
               </div>
             </div>
 
-            <div>
+            <div className="relative">
               <label className="block text-sm font-medium mb-2">Description</label>
               <textarea
                 value={description}
@@ -293,6 +310,23 @@ export default function NewProductPage() {
                 rows={4}
                 className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
               />
+              {descriptionSuggestions.length > 0 && (
+                <div className="mt-2">
+                  <p className="text-xs text-muted-foreground mb-1">Previous descriptions:</p>
+                  <div className="flex flex-wrap gap-1">
+                    {descriptionSuggestions.slice(0, 3).map((desc, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setDescription(desc)}
+                        className="text-xs px-2 py-1 bg-secondary rounded hover:bg-accent transition-colors text-left"
+                      >
+                        {desc.substring(0, 50)}...
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -481,6 +515,27 @@ export default function NewProductPage() {
                   </>
                 )}
               </div>
+              <div className="mt-2 flex gap-2">
+                <input
+                  type="url"
+                  id="thumbnail-url-input"
+                  placeholder="Or paste thumbnail URL"
+                  className="flex-1 px-4 py-2 rounded-xl bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const input = document.getElementById('thumbnail-url-input') as HTMLInputElement;
+                    if (input?.value) {
+                      setThumbnail(input.value);
+                      input.value = '';
+                    }
+                  }}
+                  className="px-4 py-2 rounded-xl bg-secondary border border-border hover:bg-accent transition-colors"
+                >
+                  <Plus className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
             <div>
@@ -523,6 +578,27 @@ export default function NewProductPage() {
                     <p className="text-sm text-muted-foreground">Click to upload multiple images</p>
                   </>
                 )}
+              </div>
+              <div className="mt-3 flex gap-2">
+                <input
+                  type="url"
+                  id="additional-url-input"
+                  placeholder="Or paste image URL"
+                  className="flex-1 px-4 py-2 rounded-xl bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const input = document.getElementById('additional-url-input') as HTMLInputElement;
+                    if (input?.value) {
+                      setImages([...images, input.value]);
+                      input.value = '';
+                    }
+                  }}
+                  className="px-4 py-2 rounded-xl bg-secondary border border-border hover:bg-accent transition-colors"
+                >
+                  <Plus className="h-5 w-5" />
+                </button>
               </div>
             </div>
 
@@ -604,8 +680,30 @@ export default function NewProductPage() {
                     </div>
                   )}
                   
+                  <div className="mt-3 flex gap-2">
+                    <input
+                      type="url"
+                      id="variant-new-url-input"
+                      placeholder="Or paste image URL"
+                      className="flex-1 px-4 py-2 rounded-xl bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const input = document.getElementById('variant-new-url-input') as HTMLInputElement;
+                        if (input?.value && !variantImages.includes(input.value)) {
+                          setVariantImages([...variantImages, input.value]);
+                          input.value = '';
+                        }
+                      }}
+                      className="px-4 py-2 rounded-xl bg-secondary border border-border hover:bg-accent transition-colors"
+                    >
+                      <Plus className="h-5 w-5" />
+                    </button>
+                  </div>
+                  
                   {variants.length > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3 mt-6">
                       {variants.map((variant, idx) => (
                         <div key={idx} className="relative bg-secondary rounded-lg p-4 sm:p-3 border border-border">
                           <button

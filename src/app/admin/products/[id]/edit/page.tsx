@@ -212,7 +212,7 @@ export default function EditProductPage() {
     setVariants([...variants, {
       color: newVariantColor.trim(),
       thumbnail: variantImages[0] || null,
-      images: variantImages.length > 0 ? variantImages : null
+      images: variantImages.length > 1 ? variantImages.slice(1) : null
     }]);
     
     setNewVariantColor('');
@@ -518,6 +518,27 @@ export default function EditProductPage() {
                   </>
                 )}
               </div>
+              <div className="mt-2 flex gap-2">
+                <input
+                  type="url"
+                  id="edit-thumbnail-url-input"
+                  placeholder="Or paste thumbnail URL"
+                  className="flex-1 px-4 py-2 rounded-xl bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const input = document.getElementById('edit-thumbnail-url-input') as HTMLInputElement;
+                    if (input?.value) {
+                      setThumbnail(input.value);
+                      input.value = '';
+                    }
+                  }}
+                  className="px-4 py-2 rounded-xl bg-secondary border border-border hover:bg-accent transition-colors"
+                >
+                  <Plus className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
             <div>
@@ -560,6 +581,27 @@ export default function EditProductPage() {
                     <p className="text-sm text-muted-foreground">Click to upload multiple images</p>
                   </>
                 )}
+              </div>
+              <div className="mt-2 flex gap-2">
+                <input
+                  type="url"
+                  id="edit-images-url-input"
+                  placeholder="Or paste image URL"
+                  className="flex-1 px-4 py-2 rounded-xl bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const input = document.getElementById('edit-images-url-input') as HTMLInputElement;
+                    if (input?.value) {
+                      setImages([...images, input.value]);
+                      input.value = '';
+                    }
+                  }}
+                  className="px-4 py-2 rounded-xl bg-secondary border border-border hover:bg-accent transition-colors"
+                >
+                  <Plus className="h-5 w-5" />
+                </button>
               </div>
             </div>
 
@@ -642,13 +684,13 @@ export default function EditProductPage() {
                       <div className="flex gap-2 flex-wrap">
                         {variantImages.map((img, idx) => (
                           <div key={idx} className="relative">
-                            <img src={img} alt="" className="w-16 h-16 rounded-lg object-cover" />
+                            <img src={img} alt="" className="w-20 h-20 sm:w-16 sm:h-16 rounded-lg object-cover" />
                             <button
                               type="button"
                               onClick={() => setVariantImages(variantImages.filter((_, i) => i !== idx))}
-                              className="absolute -top-2 -right-2 p-0.5 rounded-full bg-destructive text-destructive-foreground"
+                              className="absolute -top-2 -right-2 p-1.5 sm:p-1 rounded-full bg-destructive text-destructive-foreground"
                             >
-                              <X className="h-3 w-3" />
+                              <X className="h-4 w-4 sm:h-3 sm:w-3" />
                             </button>
                           </div>
                         ))}
@@ -656,8 +698,30 @@ export default function EditProductPage() {
                     </div>
                   )}
                   
+                  <div className="mt-3 flex gap-2">
+                    <input
+                      type="url"
+                      id="edit-variant-url-input"
+                      placeholder="Or paste image URL"
+                      className="flex-1 px-4 py-2 rounded-xl bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const input = document.getElementById('edit-variant-url-input') as HTMLInputElement;
+                        if (input?.value && !variantImages.includes(input.value)) {
+                          setVariantImages([...variantImages, input.value]);
+                          input.value = '';
+                        }
+                      }}
+                      className="px-4 py-2 rounded-xl bg-secondary border border-border hover:bg-accent transition-colors"
+                    >
+                      <Plus className="h-5 w-5" />
+                    </button>
+                  </div>
+                  
                   {variants.length > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3 mt-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3 mt-6">
                       {variants.map((variant: any, idx: number) => (
                         <div key={idx} className="relative bg-card rounded-lg p-4 sm:p-3 border border-border">
                           <button
