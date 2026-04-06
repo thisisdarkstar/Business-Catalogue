@@ -3,6 +3,8 @@ import Navbar from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { AuthProvider } from '@/components/AuthProvider';
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
   title: 'Pipasa Shoe House',
@@ -18,6 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Navbar />
             {children}
             <Footer />
+            <Analytics />
+            <SpeedInsights />
           </AuthProvider>
         </ThemeProvider>
       </body>
