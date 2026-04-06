@@ -1,11 +1,5 @@
-import HeroCarousel from '@/components/HeroCarousel';
-import HeroHighlights from '@/components/HeroHighlights';
+import Hero from '@/components/Hero';
 
 export default function Home() {
-  return (
-    <>
-      <HeroCarousel />
-      <HeroHighlights />
-    </>
-  );
+  return <Hero />;
 }
