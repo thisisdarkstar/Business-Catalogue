@@ -26,9 +26,9 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-3 group">
           <div className="h-10 w-10 rounded-xl gradient-bg flex items-center justify-center shadow-lg group-hover:animate-pulse-glow transition-all">
-            <span className="text-white font-bold text-lg">B</span>
+            <span className="text-white font-bold text-lg">P</span>
           </div>
-          <span className="text-xl font-bold gradient-text hidden sm:block">Shoe Catalog</span>
+          <span className="text-xl font-bold gradient-text hidden sm:block">Pipasa Shoe House</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-1">

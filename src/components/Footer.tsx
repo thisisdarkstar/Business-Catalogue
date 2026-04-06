@@ -11,7 +11,7 @@ export function Footer() {
               <div className="h-10 w-10 rounded-xl gradient-bg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">B</span>
               </div>
-              <span className="text-xl font-bold gradient-text">Shoe Catalog</span>
+              <span className="text-xl font-bold gradient-text">Pipasa Shoe House</span>
             </Link>
             <p className="text-muted-foreground text-sm">
               Your one-stop destination for premium fashion for the entire family.
@@ -51,7 +51,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2026 Shoe Catalog. All rights reserved.
+            © 2026 Pipasa Shoe House. All rights reserved.
           </p>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Sparkles className="h-4 w-4 text-primary" />

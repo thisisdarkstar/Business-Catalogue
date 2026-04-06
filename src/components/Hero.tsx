@@ -84,7 +84,7 @@ export default function Hero() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-sm font-medium">
               <Sparkles className="h-4 w-4 text-primary" />
-              <span className="text-muted-foreground">Premium Footwear Collection</span>
+              <span className="text-muted-foreground">Pipasa Shoe House</span>
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">

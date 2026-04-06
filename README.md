@@ -1,6 +1,6 @@
-# PSH Shoe Catalog
+# Pipasa Shoe House
 
-A modern, responsive shoe catalog built with Next.js 15, Supabase, and Tailwind CSS.
+A modern, responsive shoe catalog built with Next.js, Supabase, and Tailwind CSS.
 
 ## Features
 

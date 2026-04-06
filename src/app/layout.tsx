@@ -4,6 +4,11 @@ import { Footer } from '@/components/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { AuthProvider } from '@/components/AuthProvider';
 
+export const metadata = {
+  title: 'Pipasa Shoe House',
+  description: 'Premium footwear for every occasion',
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>

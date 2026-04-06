@@ -79,7 +79,7 @@ function ProductsContent() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold mb-2">Our Collection</h1>
+          <h1 className="text-4xl font-bold mb-2">Our Shoes</h1>
           <p className="text-muted-foreground">Browse our premium shoe selection</p>
         </motion.div>
 
